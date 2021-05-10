@@ -15,29 +15,30 @@ public class PlaceHolderUseCase implements IWorkerFetchData, IWorkerConvertObjec
 	private int totalIteracoes = 0;
 
 	public void execute(String url) throws InterruptedException {
-		Instant inicioA = Instant.now();
-		int max = 200;
-		String urlTodos = url + "todos/";
-		Thread threadA = this.initializesFetchData(urlTodos, max);
-		Thread threadA2 = this.initializesFetchData(urlTodos, max);
-		Thread threadB = this.initializesFetchData(urlTodos, max);
+		Instant inicio = Instant.now();
+		Thread threadTodos1 = this.initializesFetchData(url + "todos/", 200);
+		Thread threadTodos2 = this.initializesFetchData(url + "todos/", 200);
+		Thread threadTodos3 = this.initializesFetchData(url + "todos/", 200);
 
-		max = 10;
-		String urlUsers = url + "users/";
-		Thread threadUsers = this.initializesFetchData(urlUsers, max);
+		Thread threadUsers1 = this.initializesFetchData(url + "users/", 10);
+		Thread threadUsers2 = this.initializesFetchData(url + "users/", 10);
+		Thread threadUsers3 = this.initializesFetchData(url + "users/", 10);
 		
-		
-		
-		Thread threadC = this.initializesConvertObject();
+		Thread threadConvert1 = this.initializesConvertObject();
 
-		threadA.join();
-		threadA2.join();
-		threadB.join();
-		threadC.join();
-		Instant fimA = Instant.now();
-		Duration duracaoA = Duration.between(inicioA, fimA);
-		System.out.println("Duração:" + duracaoA.toMillis() + " milisegundos. Média:"
-				+ duracaoA.toMillis() / this.totalIteracoes + " milisegundos por iteração");
+		threadTodos1.join();
+		threadTodos2.join();
+		threadTodos3.join();
+		
+		threadUsers1.join();
+		threadUsers2.join();
+		threadUsers3.join();
+		
+		threadConvert1.join();
+		
+		Instant fim = Instant.now();
+		Duration duracaoA = Duration.between(inicio, fim);
+		System.out.println("Duração:" + duracaoA.toMillis());
 
 	}
 
